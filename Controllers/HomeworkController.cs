@@ -33,5 +33,11 @@ namespace prjAjaxDemo.Controllers
 
             return View(spots);
         }
-    }
+
+        public IActionResult Homework2()
+        { 
+
+            return View();
+        }
+        }
 }

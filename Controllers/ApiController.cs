@@ -67,6 +67,10 @@ namespace prjAjaxDemo.Controllers
         public IActionResult Register(Member member,IFormFile avatar)
         {
             if (string.IsNullOrEmpty(member.Name)) member.Name = "guest";
+            if (avatar == null || avatar.Length == 0)
+            {
+                return Content("請上傳文件", "text/plain", System.Text.Encoding.UTF8);
+            }
             //return Content($"{member.Name}你好，你{member.Age}歲了!電子郵件是 {member.Email}", "text/html", Encoding.UTF8);
 
             //取得上傳檔案的資訊
@@ -145,5 +149,19 @@ namespace prjAjaxDemo.Controllers
             return Json(spotsPaging);
         }
 
+        [HttpPost]
+        public IActionResult CheckAccount([FromBody] string name)
+        {
+            var member = _mydbContext.Members.FirstOrDefault(m => m.Name == name);
+            if (member != null)
+            {
+                return Json("帳號已存在");
+            }
+            else
+            {
+                return Json("帳號可使用");
+            }
+            
+        }
     }
 }
