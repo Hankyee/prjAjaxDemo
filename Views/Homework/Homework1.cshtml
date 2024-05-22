@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "Homework1";
+}
+
+<h1>Homework1</h1>
+@*<script src="~/js/travel.js"></script>*@
+
+<div class="card-group">
+    @{
+        int cardCount = 0;
+    }
+
+    @foreach (var spot in Model.CommonFormat.Section)
+    {
+        if (cardCount % 3 == 0)
+        {
+            @:<div class="row">
+        }
+
+        <div class="col-md-4">
+            <div class="card" style="width: 25rem;">
+                @if (spot.file.img.Count > 0)
+                {
+                    @* 照片只能顯示第一張 *@
+                    <img src="@spot.file.img[0]["text"]" class="card-img-top" alt="@spot.file.img[0]["description"]?.ToString()無法顯示">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@spot.stitle</h5>
+                    <p class="card-text">@spot.xbody</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><small class="text-body-secondary">營業時間: @spot.MEMO_TIME</small></li>
+                    <li class="list-group-item"><small class="text-body-secondary">地址: @spot.address</small></li>
+                    <li class="list-group-item"><small class="text-body-secondary">交通資訊: @spot.info</small></li>
+                </ul>
+
+                 @* 沒用的連結*@
+                    <div class="card-body">
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">詳細資訊</a>
+                </div> 
+            </div>
+        </div>
+
+        cardCount++;
+
+        if (cardCount % 3 == 0 || cardCount == Model.CommonFormat.Section.Count)
+        {
+            @:</div> <!-- Close the row div -->
+        }
+    }
+</div>
+
+
+
+
+@section Styles{
+    <style>
+    
+    
+    </style>
+}
+
+@section Scripts{
+    @* <script>
+        //console.log(spots.CommonFormat.Section.);
+    </script> *@
+
+}

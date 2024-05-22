@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "address";
+}
+
+<h1>address</h1>
+<select id="selectcity"> </select>
+<select id="selectDistricts"></select>
+
+
+@section Scripts{
+    <script>
+        const selcity = document.querySelector('#selectcity');
+        const seldistricts = document.querySelector('#selectDistricts');
+
+        //載入鄉鎮區
+        const loadDistricts = async() => {
+            //console.log(selCity.value);
+            //console.log(selCity.selectedIndex);
+            //console.log(selCity.options[selCity.selectedIndex].value);
+            //console.log(selCity.options[selCity.selectedIndex].text);
+            const url = `@Url.Content("~/api/districts")?city=${selcity.value}`;
+            const response = await fetch(url);
+            const datas = await response.json();
+
+            const districts = datas.map(district => `<option value="${district}">${district}</option>`);
+
+            seldistricts.innerHTML=districts.join("");
+        }
+        
+
+        //ajax
+        (async()=>{
+            const response = await fetch('@Url.Content("~/api/cities")');
+            if(!response.ok){
+                console.log(`${response.status}`);
+                return;
+            }
+            const datas = await response.json();
+            const cities = datas.map(city=>`<option value="${city}">${city}</option>`);
+            selcity.innerHTML = cities.join("");
+            loadDistricts();
+
+        })();
+
+        
+        selCity.addEventListener('change', loadDistricts);
+    </script>
+}
+
+@section Styles{
+    <style>
+
+    </style>
+}

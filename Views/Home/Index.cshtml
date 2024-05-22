@@ -1,0 +1,121 @@
+﻿@*@model IEquatable<WebApplication1>*@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @*<ul id="ul1"></ul>*@
+    <table id="tb1" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>WorkYears</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@*<table id="tb1" class="table table-hover"></table>*@
+
+@section Styles{
+    <style>
+    h1{background-color:aqua;
+    }
+    </style>
+}
+
+@section Scripts{
+    <script>
+        var hover = document.querySelector('h1')
+        hover.addEventListener('mouseover',(ggg)=>{
+            ggg.target.style.backgroundColor = 'yellow';
+            consolelog(this);
+        })
+        hover.addEventListener('mouseout',(ggg)=>{
+            ggg.target.style.backgroundColor = 'aqua';
+        })
+
+
+        function printSomthing(data){
+            let promise = new Promise(function(resolve,reject){
+                window.setTimeout(function(){
+                    resolve(data)
+                },1000);
+            })
+            return promise;
+            console.log(promise);
+        }
+        //ES5語法 .then
+        //printSomthing('A').then(data=>{
+        //    console.log(data);
+        //    return printSomthing('B')
+        //}).then(data=>{
+        //    console.log(data);
+        //    return printSomthing('C')
+        //}).then(data => {
+        //    console.log(data);
+        //}).finally(()=>{
+        //    console.log('END');
+        //})
+
+        //ES6 語法糖 async await 
+        //async function show(){
+        //    data = await printSomthing('A');
+        //    console.log(data);
+        //    data = await printSomthing('B');
+        //    console.log(data);
+        //    data = await printSomthing('C');
+        //    console.log(data);
+        //}
+        //show();
+        //ES6 立即執行涵式
+        (async ()=>{
+            data = await printSomthing('A');
+            console.log(data);
+            data = await printSomthing('B');
+            console.log(data);
+            data = await printSomthing('C');
+            console.log(data);
+        })();
+
+        //JSON練習
+        const emp = {"employees":[
+            {"name":"Tom","workYears":3,"salary":35000},
+                { "name":"Jack", "workYears": 5, "salary": 40000 },
+                { "name":"Mary", "workYears": 7, "salary": 45000 }
+        ]}
+        //console.log(emp.employees[1].name);
+        for(i=0,max=emp.employees.length; i<max;i++)
+        {
+            console.log(emp.employees[i].name);
+            console.log(emp.employees[i].workYears);
+            console.log(emp.employees[i].salary);
+        }
+        //const myUl = document.querySelector('#ul1');
+        
+        //map方法
+        const emps = emp.employees.map(emp => `<li>${emp.name+" "+emp.workYears+" "+emp.salary}</li>`)
+        console.log(emps);
+        //myUl.innerHTML=emps.join("");
+
+        const tb = document.querySelector('#tb1>tbody');
+        const employee = emp.employees.map(emp =>{
+            const{name,workYears,salary}=emp;
+            return(
+            `<tr>
+                 <td>${name}</td>
+                 <td>${workYears}</td>
+                 <td>${salary}</td>
+            </tr>
+            `)
+        } )
+        console.log(emps);
+        //document.getElementById("tb1").innerHTML = employee.join("");
+        tb.innerHTML = employee.join("");
+    </script>
+}

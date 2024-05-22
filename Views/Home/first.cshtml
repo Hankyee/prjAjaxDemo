@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewData["Title"] = "first";
+}
+
+<h1>First Ajax Demo</h1>
+
+<button id="buttonstart" class="btn btn-primary" >Ajax start</button>
+<button id="buttonstop" class="btn btn-danger">Ajax stop</button>
+<img src="~/images/Walk.gif" id="imgloading" style="display:none" />
+<div id="div1"></div>
+
+
+@section Scripts{
+    <script>
+        const btn = document.querySelector('#buttonstart');
+        const btnstop = document.querySelector('#buttonstop');
+        const myDiv = document.querySelector('#div1');
+        const imgloader = document.querySelector('#imgloading');
+        let abortController;
+
+        btnstop.addEventListener('click',()=>{
+            if (abortController) {
+                abortController.abort();
+            }
+        })
+
+
+        //async/await寫法
+        btn.addEventListener('click',async()=>{
+            try{
+                //停用按鈕
+                btn.setAttribute('disabled', 'disabled');
+                //顯示圖示
+                imgloader.style.display="inline";
+                //取消ajax的執行
+                abortController = new AbortController();
+                const signal = abortController.signal;
+                //5秒
+                setTimeout(()=>{
+                    abortController.abort();
+                },5000);
+
+                const response = await fetch('@Url.Content("~/api/index")',{signal});
+                if(!response.ok){
+                throw new Error(`${response.status}`);
+                }
+                const data = await response.text();
+                myDiv.innerHTML = `<h2>${data}</h2>`;
+
+            }catch(error){
+                myDiv.innerHTML = `<h2>${error.message}</h2>`;
+
+            }finally{
+                //隱藏圖示
+                imgloader.style.display = "none";
+                //啟用按鈕
+                btn.removeAttribute('disabled');
+            }
+            
+        })
+
+
+        //基本寫法
+        //btn.addEventListener('click',()=>{
+        //    myDiv.textContent = 'Clickkkk';
+        //    //myDiv.innerHTML = 'kkkkkk';
+            
+        //    //ajax程式
+        //    console.log(fetch('@Url.Content("~/api/Index")'));
+
+        //    fetch('@Url.Content("~/api/Index")')
+        //    .then(response=>{
+        //        console.log(response);
+        //            //console.log(response.text());
+        //            return response.text();
+        //    })
+        //    .then(data=>{
+        //        myDiv.innerHTML+=`<h2>${data}</h2>`;
+        //    })
+        //})
+    </script>
+}
+
+@section Styles{
+    <style>
+
+    </style>
+}

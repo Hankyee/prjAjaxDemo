@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutGYM";
+}
+
+<h1>GYMIndex</h1>
+
+@section Styles{
+    <style>
+    
+        /* 将所有 ul 元素水平排列 */
+        .chakra-stack {
+            white-space: nowrap; /* 防止换行 */
+        }
+
+            /* 设置每个 ul 元素为一个单位，水平排列 */
+            .chakra-stack ul {
+                display: inline-block;
+                vertical-align: top; /* 使每个 ul 元素顶部对齐 */
+            }
+
+                /* 设置每个 li 元素垂直排列 */
+                .chakra-stack ul li {
+                    display: block;
+                    /* 其他样式 */
+                }
+
+        .card-container {
+            display: flex;
+            justify-content: space-between; /* 水平等间距排列 */
+        }
+    </style>
+}
+
+@section Scripts{
+    <script>
+
+
+    </script>
+}
