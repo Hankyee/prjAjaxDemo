@@ -54,56 +54,6 @@
             divnameResult.textContent = data;
         });
 
-        btnSubmit.addEventListener('click', async (evt) => {
-            evt.preventDefault();//防止預設行為的發生
-
-            //將資料放進FormData
-            const myForm = document.querySelector('#userForm');
-            const formData = new FormData(myForm);
-            //formData.append("password", "12345678");
-            //讀出formData中的資料
-            //for(const pair of formData.entries()){
-            //    console.log(`${pair[0]}:${pair[1]}`);
-            //}
-            //const response =  await fetch(url);
-            //console.log(inpName.value);
-            //const url = `@Url.Content("~/api/register/")?email=${inpEmail.value}&age=${inpAge.value}&name=${inpName.value}`;
-
-
-            // const url = '@Url.Content("~/api/register/")';
-            // const response = await fetch(url, {
-            //     method: 'POST',
-            //     body: formData
-            // });
-            // const data = await response.text();
-            // divResult.textContent = data;
-
-
-            //console.log(inpName.value);
-
-            //const url = `@Url.Content("~/api/register/")?email=${inpEmail.value}&age=${inpAge.value}&name=${inpName.value}`;
-            //const response = await fetch(url);
-            //const data = await response.text();
-            //divResult.textContent = data;
-
-
-        })
-
-
-
-
-
-        //const divresult = document.querySelector('#div1');
-
-        //(async()=>{
-        //    const url = '@Url.Content("~/api/register")?name=hank&age=18';
-        //    const response = await fetch(url);
-        //    const datas=await response.text();
-        //    divresult.innerHTML=datas;
-        //})();
-
-
-
     </script>
 }
 
