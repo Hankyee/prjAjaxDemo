@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prjAjaxDemo", "prjAjaxDemo.csproj", "{37AC9D9C-41CD-4B4D-BAEC-8BE9B04337AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prjAjaxDemo", "prjAjaxDemo.csproj", "{37AC9D9C-41CD-4B4D-BAEC-8BE9B04337AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webAPIDemo", "..\webAPIDemo\webAPIDemo.csproj", "{036E07C4-069C-41BB-B0D1-BE221521BB37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{37AC9D9C-41CD-4B4D-BAEC-8BE9B04337AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37AC9D9C-41CD-4B4D-BAEC-8BE9B04337AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37AC9D9C-41CD-4B4D-BAEC-8BE9B04337AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036E07C4-069C-41BB-B0D1-BE221521BB37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036E07C4-069C-41BB-B0D1-BE221521BB37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036E07C4-069C-41BB-B0D1-BE221521BB37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036E07C4-069C-41BB-B0D1-BE221521BB37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

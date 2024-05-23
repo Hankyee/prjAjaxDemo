@@ -22,7 +22,7 @@ namespace prjAjaxDemo.Controllers
 
         public IActionResult Index()
         {
-            System.Threading.Thread.Sleep(10000);
+            //System.Threading.Thread.Sleep(10000);
             return Content("<h2>嗨嗨~ Word!!</h2>","text/html",Encoding.UTF8);
         }
 
