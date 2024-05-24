@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Unicode;
 using prjAjaxDemo.Models.DTO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace prjAjaxDemo.Controllers
 {
@@ -62,9 +63,44 @@ namespace prjAjaxDemo.Controllers
             return NotFound();
         }
 
+        [HttpPost]
+        public IActionResult spot([FromBody] searchDTO searchDTO)
+        {
+            //根據分類編號搜尋景點資料
+            var spots = searchDTO.categoryId == 0 ? _mydbContext.SpotImagesSpots : _mydbContext.SpotImagesSpots.Where(s => s.CategoryId == searchDTO.categoryId);
+
+            //根據關鍵字搜尋景點資料(title、desc)
+            if (!string.IsNullOrEmpty(searchDTO.keyword))
+            {
+                spots = spots.Where(s => s.SpotTitle.Contains(searchDTO.keyword) || s.SpotDescription.Contains(searchDTO.keyword));
+            }
+
+            //總共有多少筆資料
+            int totalCount = spots.Count();
+            //每頁要顯示幾筆資料
+            int pageSize = (int)searchDTO.pageSize;   //searchDTO.pageSize ?? 9;
+            //目前第幾頁
+            int page = (int)searchDTO.page;
+
+            //計算總共有幾頁
+            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
+
+            //分頁
+            spots = spots.Skip((page - 1) * pageSize).Take(pageSize);
+
+            //包裝要傳給client端的資料
+            SpotsPagingDTO spotsPaging = new SpotsPagingDTO();
+            spotsPaging.TotalCount = totalCount;
+            spotsPaging.TotalPages = totalPages;
+            spotsPaging.SpotsResult = spots.ToList();
+
+            //return Json(search);
+            return Json(spotsPaging);
+        }
+
 
         //public IActionResult Register(string userName, string email, int age = 20)
-        public IActionResult Register(Member member,IFormFile avatar)
+        public IActionResult Register(Member member, IFormFile avatar)
         {
             if (string.IsNullOrEmpty(member.Name)) member.Name = "guest";
             if (avatar == null || avatar.Length == 0)
@@ -102,6 +138,11 @@ namespace prjAjaxDemo.Controllers
             }
             member.FileName = avatar.FileName;
             member.FileData = imgByte;
+
+            // 密碼加密
+            var passwordHasher = new PasswordHasher<Member>();
+            member.Password = passwordHasher.HashPassword(member, member.Password);
+
             //寫進資料庫
             _mydbContext.Members.Add(member);
             _mydbContext.SaveChanges();
@@ -112,47 +153,16 @@ namespace prjAjaxDemo.Controllers
             // return Content($"Hello {member.Name}，{member.Age} 歲了，電子郵件是 {member.Email}", "text/html", System.Text.Encoding.UTF8);
 
         }
-
-
-        [HttpPost]
-        public IActionResult spot([FromBody] searchDTO searchDTO)
-        {
-            //根據分類編號搜尋景點資料
-            var spots = searchDTO.categoryId == 0 ? _mydbContext.SpotImagesSpots : _mydbContext.SpotImagesSpots.Where(s => s.CategoryId == searchDTO.categoryId);
-
-            //根據關鍵字搜尋景點資料(title、desc)
-            if (!string.IsNullOrEmpty(searchDTO.keyword))
-            {
-                spots = spots.Where(s => s.SpotTitle.Contains(searchDTO.keyword) || s.SpotDescription.Contains(searchDTO.keyword));
-            }
-
-            //總共有多少筆資料
-            int totalCount = spots.Count();
-            //每頁要顯示幾筆資料
-            int pageSize = (int)searchDTO.pageSize;   //searchDTO.pageSize ?? 9;
-            //目前第幾頁
-            int page = (int)searchDTO.page;
-
-            //計算總共有幾頁
-            int totalPages = (int)Math.Ceiling((decimal)totalCount / pageSize);
-
-            //分頁
-            spots = spots.Skip((page - 1) * pageSize).Take(pageSize);
-
-            //包裝要傳給client端的資料
-            SpotsPagingDTO spotsPaging = new SpotsPagingDTO();
-            spotsPaging.TotalCount = totalCount;
-            spotsPaging.TotalPages = totalPages;
-            spotsPaging.SpotsResult = spots.ToList();
-
-            //return Json(search);
-            return Json(spotsPaging);
-        }
-
         [HttpPost]
         public IActionResult CheckAccount([FromBody] string name)
         {
             var member = _mydbContext.Members.FirstOrDefault(m => m.Name == name);
+            if (name == null || name.Length == 0)
+            {
+                return Json("請輸入姓名");
+            }
+            else
+            {
             if (member != null)
             {
                 return Json("帳號已存在");
@@ -161,6 +171,8 @@ namespace prjAjaxDemo.Controllers
             {
                 return Json("帳號可使用");
             }
+            }
+            
             
         }
     }

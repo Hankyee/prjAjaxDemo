@@ -19,6 +19,9 @@
         <input type="search" placeholder="搜尋景點資料" class="form-control" id="inputSearch" />
     </div>
 </div>
+<div >
+    <ul class="pagination" id="ul2"></ul>
+</div>
 <div class="row row-cols-1 row-cols-md-3 g-4" id="div1">
 </div>
 
@@ -68,14 +71,16 @@
                             </div>
                         `)
             })
-
             divSpots.innerHTML = spots.join("");
+
             //顯示分頁按鈕
             let liPages = "";
             for (let i = 1, max = data.totalPages; i <= max; i++) {
                 liPages += `<li class="page-item" onclick="pagingHandler(${i})"><a class="page-link">${i}</a></li>`
             }
             ulPaging.innerHTML = liPages;
+            
+            //顯示類別按鈕
         }
 
         loadSpots();
