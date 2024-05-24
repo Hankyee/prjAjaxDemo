@@ -20,7 +20,7 @@
     </div>
 </div>
 <div >
-    <ul class="pagination" id="ul2"></ul>
+    <ul class="pagination" id="categoryList"></ul>
 </div>
 <div class="row row-cols-1 row-cols-md-3 g-4" id="div1">
 </div>
@@ -34,6 +34,8 @@
         const divSpots = document.querySelector('#div1');
         const ulPaging = document.querySelector('#ul1');
         const inpSearch = document.querySelector('#inputSearch');
+        const categoryList = document.querySelector('#categoryList');
+
         const searchData = {
             "categoryId": 0,
             "keyword": "",
@@ -42,6 +44,19 @@
             "sortBy": "SpotId",
             "sortType":"asc"
         };
+        //尚未完成
+        const loadCategories = async () => {
+            const url = 'https://localhost:7105/api/Categories'; // 假設這是獲取分類的 API
+            const response = await fetch(url);
+            const categories = await response.json();
+
+            let categoryButtons = `<li class="page-item" onclick="categoryHandler(0)"><a class="page-link">All</a></li>`;
+            categories.forEach(category => {
+                categoryButtons += `<li class="page-item" onclick="categoryHandler(${category.id})"><a class="page-link">${category.name}</a></li>`;
+            });
+            categoryList.innerHTML = categoryButtons;
+        };
+
         const loadSpots = async () => {
             const url = 'https://localhost:7105/api/Spots';
             const response = await fetch(url, {
@@ -53,8 +68,9 @@
             });
             const data = await response.json();
             console.log(data);
-
+            
             //顯示景點資料
+            //為何spotsResult自動變小寫??
             const spots = data.spotsResult.map(spot => {
                 const { spotId, spotTitle, spotDescription, address, spotImage } = spot;
                 return (`<div class="col">
@@ -81,21 +97,32 @@
             ulPaging.innerHTML = liPages;
             
             //顯示類別按鈕
+            //todo:接API CATEGORY ，再抓ID，根據ID寫入LI
+
         }
-
         loadSpots();
+        loadCategories();
+       
 
+        //選擇分類
+        const categoryHandler = categoryId => {
+            searchData.categoryId = categoryId;
+            loadSpots();
+        };
+        //分頁選擇
         const pagingHandler = page => {
             searchData.page = page;
             loadSpots();
         }
-
+        //關鍵字搜尋
         inpSearch.addEventListener('keydown', event => {
             if (event.keyCode === 13) {
                 searchData.keyword = event.target.value;
                 loadSpots();
             }
         })
+
+
         //(async () => {
         //    const url = '@Url.Content("~/api/spot")';
         //    const response = await fetch(url, {
