@@ -39,5 +39,10 @@ namespace prjAjaxDemo.Controllers
 
             return View();
         }
+        public IActionResult Homework3()
+        {
+
+            return View();
         }
+    }
 }
