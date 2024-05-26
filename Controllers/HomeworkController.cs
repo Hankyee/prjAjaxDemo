@@ -36,12 +36,14 @@ namespace prjAjaxDemo.Controllers
 
         public IActionResult Homework2()
         { 
-
             return View();
         }
         public IActionResult Homework3()
         {
-
+            return View();
+        }
+        public IActionResult Homework4()
+        {
             return View();
         }
     }
